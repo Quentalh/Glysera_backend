@@ -1,0 +1,2 @@
+class RegistroGlicosimetro < ApplicationRecord
+end
