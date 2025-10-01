@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_15_191825) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_01_221455) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,13 +24,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_191825) do
     t.index ["usuario_id"], name: "index_enderecos_on_usuario_id"
   end
 
-  create_table "posts", force: :cascade do |t|
-    t.string "titulo"
-    t.text "conteudo"
-    t.bigint "usuario_id", null: false
+  create_table "pacientes", force: :cascade do |t|
+    t.string "nome"
+    t.string "nome_mae"
+    t.string "nome_social"
+    t.integer "cpf"
+    t.integer "nascimento"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["usuario_id"], name: "index_posts_on_usuario_id"
   end
 
   create_table "usuarios", force: :cascade do |t|
@@ -41,5 +42,4 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_15_191825) do
   end
 
   add_foreign_key "enderecos", "usuarios"
-  add_foreign_key "posts", "usuarios"
 end

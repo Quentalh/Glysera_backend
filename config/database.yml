@@ -22,10 +22,10 @@ default: &default
 
 development:
   <<: *default
-  database: glysera_development
-  host: 172.16.80.101
-  username: usuario
-  password: senha
+  database: minha
+  host: localhost
+  username: postgres
+  password: heitor2007
 
 
   # The specified database role being used to connect to PostgreSQL.
