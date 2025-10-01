@@ -1,2 +1,0 @@
-class Dado < ApplicationRecord
-end
