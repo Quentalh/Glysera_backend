@@ -1,18 +1,32 @@
 class PacientesController < ApplicationController
   def create
-    @paciente = Paciente.new(paciente_params)
-    if @paciente.save
-      render json: { 
-        status: 'success', 
-        message: 'Paciente criado com sucesso!', 
-        data: @paciente 
-      }, status: :created
-    else
-      render json: { 
-        status: 'error', 
-        message: 'Não foi possível criar o paciente.', 
-        errors: @paciente.errors.full_messages 
-      }, status: :unprocessable_entity
+    ActiveRecord::Base.transaction do
+      # The .merge(usuario_id: 1) is no longer needed.
+      @endereco = Endereco.create!(endereco_params)
+      @paciente = Paciente.create!(paciente_params.merge(endereco_id: @endereco.id))
     end
+
+    render json: {
+      status: 'success',
+      message: 'Paciente e endereço criados com sucesso!',
+      data: @paciente
+    }, status: :created
+
+  rescue ActiveRecord::RecordInvalid => e
+    render json: {
+      status: 'error',
+      message: 'Não foi possível criar o paciente.',
+      errors: e.record.errors.full_messages
+    }, status: :unprocessable_entity
+  end
+
+  private
+
+  def paciente_params
+    params.require(:paciente).permit(:nome, :nome_social, :nome_mae, :cpf, :nascimento_date)
+  end
+
+  def endereco_params
+    params.require(:endereco).permit(:cep, :rua, :bairro, :cidade, :estado, :numero, :complemento)
   end
 end
