@@ -1,0 +1,2 @@
+class Observacao < ApplicationRecord
+end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_02_231254) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_07_014141) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -26,6 +26,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_231254) do
     t.string "complemento"
   end
 
+  create_table "equipamento_pacientes", force: :cascade do |t|
+    t.date "data_de_recebimento"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "equipamento_id", null: false
+    t.bigint "requerimento_id", null: false
+    t.index ["equipamento_id"], name: "index_equipamento_pacientes_on_equipamento_id"
+    t.index ["requerimento_id"], name: "index_equipamento_pacientes_on_requerimento_id"
+  end
+
+  create_table "equipamentos", force: :cascade do |t|
+    t.string "marca"
+    t.date "data"
+    t.string "modelo"
+    t.integer "numero_de_serie"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "observacaos", force: :cascade do |t|
+    t.text "texto"
+    t.date "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "pacientes", force: :cascade do |t|
     t.string "nome"
     t.string "nome_mae"
@@ -39,6 +65,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_231254) do
     t.index ["endereco_id"], name: "index_pacientes_on_endereco_id"
   end
 
+  create_table "requerimentos", force: :cascade do |t|
+    t.date "data"
+    t.boolean "situacao"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "paciente_cpf"
+    t.index ["paciente_cpf"], name: "index_requerimentos_on_paciente_cpf"
+  end
+
+  create_table "unidade_de_saudes", force: :cascade do |t|
+    t.string "nome"
+    t.integer "us"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "usuarios", force: :cascade do |t|
     t.string "nome"
     t.string "email"
@@ -46,5 +88,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_231254) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "equipamento_pacientes", "equipamentos"
+  add_foreign_key "equipamento_pacientes", "requerimentos"
   add_foreign_key "pacientes", "enderecos"
 end

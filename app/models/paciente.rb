@@ -1,5 +1,7 @@
 class Paciente < ApplicationRecord
   belongs_to :endereco
+  has_one :requerimento, foreign_key: "paciente_cpf", primary_key: "cpf"
+  has_one :equipamento, through: :requerimento
   validates :nome, presence: true
   validates :nome_mae, presence: true
   validates :nome_social, presence: true

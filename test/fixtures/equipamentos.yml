@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  marca: MyString
+  data: 2025-10-06
+  modelo: MyString
+  numero_de_serie: 1
+
+two:
+  marca: MyString
+  data: 2025-10-06
+  modelo: MyString
+  numero_de_serie: 1
