@@ -20,16 +20,16 @@ class PacientesController < ApplicationController
   end
 
   def show
-    @paciente = Paciente.find_by(cpf: params[:cpf])
-
+    # Use .includes to prevent extra database queries (N+1 problem)
+    @paciente = Paciente.includes(:endereco, :equipamento).find_by(cpf: params[:cpf])
+  
     if @paciente
-      @equipamento = @paciente.equipamento
-
       render json: {
         status: "success",
         data: {
-          paciente: @paciente,
-          equipamento: @equipamento
+          # Use as_json to include the associated endereco in the response
+          paciente: @paciente.as_json(include: :endereco),
+          equipamento: @paciente.equipamento
         }
       }, status: :ok
     else
@@ -39,14 +39,41 @@ class PacientesController < ApplicationController
       }, status: :not_found
     end
   end
-
-  private
-
-  def paciente_params
-    params.require(:paciente).permit(:nome, :cpf, :email, :telefone, :data_nascimento)
-  end
-
-  def endereco_params
-    params.require(:endereco).permit(:rua, :numero, :bairro, :cidade, :estado, :cep)
+  
+  # NEW fully editable update action
+  def update
+    @paciente = Paciente.find(params[:id])
+    @endereco = @paciente.endereco
+  
+    # Use a transaction to ensure both updates succeed or neither do.
+    ActiveRecord::Base.transaction do
+      @paciente.update!(paciente_params)
+      @endereco.update!(endereco_params)
+    end
+  
+    render json: {
+      status: "success",
+      message: "Paciente e endereço atualizados com sucesso!",
+      data: @paciente.as_json(include: :endereco)
+    }, status: :ok
+  
+  rescue ActiveRecord::RecordInvalid => e
+    render json: {
+      status: "error",
+      message: "Não foi possível atualizar o cadastro.",
+      errors: e.record.errors.full_messages
+    }, status: :unprocessable_entity
   end
 end
+  
+  private
+  
+  # Ensure your params methods permit all the fields.
+  # These should be the same as for your create action.
+  def paciente_params
+    params.require(:paciente).permit(:nome, :nome_social, :nome_mae, :cpf, :nascimento_date, :sexo) # Added :sexo
+  end
+  
+  def endereco_params
+    params.require(:endereco).permit(:cep, :rua, :bairro, :cidade, :estado, :numero, :complemento)
+  end
