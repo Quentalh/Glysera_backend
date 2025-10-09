@@ -3,9 +3,9 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-  host: 127.0.0.1
-  username: postgres
-  password: heitor2007 # <-- COLOQUE A SUA SENHA AQUI
+  host: 172.16.80.101
+  username: usuario
+  password: senha # <-- COLOQUE A SUA SENHA AQUI
 
 development:
   <<: *default

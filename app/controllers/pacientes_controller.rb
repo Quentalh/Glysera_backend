@@ -4,10 +4,11 @@ class PacientesController < ApplicationController
 
   # GET /pacientes
   def index
-    @pacientes = Paciente.all
+    @pacientes = Paciente.includes(:equipamentos, :endereco).all
+    # CORRECTION: Now, the list of all patients will include their equipment.
     render json: {
       status: "success",
-      data: @pacientes
+      data: @pacientes.as_json(include: [:endereco, :equipamentos])
     }, status: :ok
   end
 
@@ -18,7 +19,6 @@ class PacientesController < ApplicationController
         status: "success",
         data: {
           paciente: @paciente.as_json(include: :endereco),
-          # CORRECTION #2: Use the plural 'equipamentos' to fetch the associated equipment
           equipamentos: @paciente.equipamentos
         }
       }, status: :ok
@@ -30,6 +30,7 @@ class PacientesController < ApplicationController
     end
   end
 
+  # ... (rest of the controller remains the same) ...
   # POST /pacientes
   def create
     ActiveRecord::Base.transaction do
@@ -93,7 +94,6 @@ class PacientesController < ApplicationController
   private
 
   def set_paciente
-    # CORRECTION #1: Change .includes(:equipamento) to .includes(:equipamentos)
     @paciente = Paciente.includes(:endereco, :equipamentos).find_by(cpf: params[:cpf])
     @paciente ||= Paciente.find_by(id: params[:id])
   end
