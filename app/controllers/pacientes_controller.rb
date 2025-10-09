@@ -1,3 +1,4 @@
+# app/controllers/pacientes_controller.rb
 class PacientesController < ApplicationController
   before_action :set_paciente, only: [:show, :update, :destroy]
 
@@ -17,7 +18,8 @@ class PacientesController < ApplicationController
         status: "success",
         data: {
           paciente: @paciente.as_json(include: :endereco),
-          equipamento: @paciente.equipamento
+          # CORRECTION #2: Use the plural 'equipamentos' to fetch the associated equipment
+          equipamentos: @paciente.equipamentos
         }
       }, status: :ok
     else
@@ -91,7 +93,8 @@ class PacientesController < ApplicationController
   private
 
   def set_paciente
-    @paciente = Paciente.includes(:endereco, :equipamento).find_by(cpf: params[:cpf])
+    # CORRECTION #1: Change .includes(:equipamento) to .includes(:equipamentos)
+    @paciente = Paciente.includes(:endereco, :equipamentos).find_by(cpf: params[:cpf])
     @paciente ||= Paciente.find_by(id: params[:id])
   end
 
