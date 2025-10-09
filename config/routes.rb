@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   get "/pacientes/:cpf", to: "pacientes#show", constraints: { cpf: /[0-9\.\-]+/ }
 
+  post "/emissao_formulario", to: "emissao_formulario#create"
+
   resources :pacientes
   resources :equipamentos
   resources :observacoes

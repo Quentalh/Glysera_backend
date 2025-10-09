@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_08_162524) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_09_021557) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -59,12 +59,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_08_162524) do
     t.bigint "unidade_de_saude_id", null: false
     t.bigint "paciente_id", null: false
     t.bigint "equipamento_id", null: false
-    t.bigint "requerimento_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["equipamento_id"], name: "index_equipamento_pacientes_on_equipamento_id"
     t.index ["paciente_id"], name: "index_equipamento_pacientes_on_paciente_id"
-    t.index ["requerimento_id"], name: "index_equipamento_pacientes_on_requerimento_id"
     t.index ["unidade_de_saude_id"], name: "index_equipamento_pacientes_on_unidade_de_saude_id"
   end
 
@@ -127,7 +125,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_08_162524) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "equipamento_pacientes", "equipamentos"
   add_foreign_key "equipamento_pacientes", "pacientes"
-  add_foreign_key "equipamento_pacientes", "requerimentos"
   add_foreign_key "equipamento_pacientes", "unidade_de_saudes"
   add_foreign_key "observacoes", "equipamentos"
   add_foreign_key "pacientes", "enderecos"

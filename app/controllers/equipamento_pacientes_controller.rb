@@ -57,6 +57,6 @@ class EquipamentoPacientesController < ApplicationController
   end
 
   def equipamento_paciente_params
-    params.require(:equipamento_paciente).permit(:requerimento_id, :equipamento_id, :unidade_de_saude_id)
+    params.require(:equipamento_paciente).permit(:paciente_id, :equipamento_id, :unidade_de_saude_id)
   end
 end
