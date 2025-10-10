@@ -3,19 +3,26 @@ class EquipamentosController < ApplicationController
 
   # GET /equipamentos
   def index
-    @equipamentos = Equipamento.all
+    @equipamentos = Equipamento.includes(:observacoes).all
     render json: {
       status: "success",
-      data: @equipamentos
+      data: @equipamentos.as_json(include: :observacoes)
     }, status: :ok
   end
 
   # GET /equipamentos/:id
   def show
-    render json: {
-      status: "success",
-      data: @equipamento
-    }, status: :ok
+    if @equipamento
+      render json: {
+        status: "success",
+        data: @equipamento.as_json(include: :observacoes)
+      }, status: :ok
+    else
+      render json: {
+        status: "error",
+        message: "Equipamento não encontrado"
+      }, status: :not_found
+    end
   end
 
   # POST /equipamentos
@@ -71,12 +78,8 @@ class EquipamentosController < ApplicationController
   private
 
   def set_equipamento
-    @equipamento = Equipamento.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render json: {
-      status: "error",
-      message: "Equipamento não encontrado"
-    }, status: :not_found
+    @equipamento = Equipamento.includes(:observacoes).find_by(numero_de_serie: params[:id])
+    @equipamento ||= Equipamento.includes(:observacoes).find_by(id: params[:id])
   end
 
   def equipamento_params
@@ -85,7 +88,7 @@ class EquipamentosController < ApplicationController
       :modelo,
       :numero_de_serie,
       :data,
-      observacoes_attributes: [:id, :descricao, :arquivo, :_destroy]
+      observacoes_attributes: [:id, :texto, :arquivo, :_destroy]
     )
   end
 end

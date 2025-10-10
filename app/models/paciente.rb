@@ -1,7 +1,7 @@
 # app/models/paciente.rb
 class Paciente < ApplicationRecord
   belongs_to :endereco
-  has_many :equipamento_pacientes
+  has_many :equipamento_pacientes, dependent: :destroy
   has_many :equipamentos, through: :equipamento_pacientes
 
   validates :nome, presence: true

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :pacientes
   resources :equipamentos
   resources :observacoes
+  resources :unidade_de_saudes, only: [:index]
   resources :usuarios
   resources :equipamento_pacientes
   resources :enderecos
