@@ -1,7 +1,6 @@
 class EquipamentosController < ApplicationController
   before_action :set_equipamento, only: [:show, :update, :destroy]
 
-  # GET /equipamentos
   def index
     @equipamentos = Equipamento.includes(:observacoes).all
     render json: {
@@ -10,7 +9,6 @@ class EquipamentosController < ApplicationController
     }, status: :ok
   end
 
-  # GET /equipamentos/:id
   def show
     if @equipamento
       render json: {
@@ -25,7 +23,6 @@ class EquipamentosController < ApplicationController
     end
   end
 
-  # POST /equipamentos
   def create
     @equipamento = Equipamento.new(equipamento_params)
 
@@ -43,7 +40,7 @@ class EquipamentosController < ApplicationController
       }, status: :unprocessable_entity
     end
   end
-  # PATCH/PUT /equipamentos/:id
+
   def update
     if @equipamento.update(equipamento_params)
       render json: {
@@ -60,7 +57,7 @@ class EquipamentosController < ApplicationController
     end
   end
 
-  # DELETE /equipamentos/:id
+
   def destroy
     if @equipamento.destroy
       render json: {

@@ -2,17 +2,14 @@
 class PacientesController < ApplicationController
   before_action :set_paciente, only: [:show, :update, :destroy]
 
-  # GET /pacientes
   def index
     @pacientes = Paciente.includes(:equipamentos, :endereco).all
-    # CORRECTION: Now, the list of all patients will include their equipment.
     render json: {
       status: "success",
       data: @pacientes.as_json(include: [:endereco, :equipamentos])
     }, status: :ok
   end
 
-  # GET /pacientes/:cpf
   def show
     if @paciente
       render json: {
@@ -30,7 +27,6 @@ class PacientesController < ApplicationController
     end
   end
 
-  # ... (rest of the controller remains the same) ...
   # POST /pacientes
   def create
     ActiveRecord::Base.transaction do
@@ -52,7 +48,6 @@ class PacientesController < ApplicationController
     }, status: :unprocessable_entity
   end
 
-  # PATCH/PUT /pacientes/:id
   def update
     @endereco = @paciente.endereco
 
@@ -75,7 +70,6 @@ class PacientesController < ApplicationController
     }, status: :unprocessable_entity
   end
 
-  # DELETE /pacientes/:id
   def destroy
     if @paciente.destroy
       render json: {

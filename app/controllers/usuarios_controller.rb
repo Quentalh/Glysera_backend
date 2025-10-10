@@ -1,16 +1,16 @@
 class UsuariosController < ApplicationController
   before_action :set_usuario, only: [:show, :update, :destroy]
 
-  # GET /usuarios
+  
   def index
     @usuarios = Usuario.all
     render json: {
       status: "success",
-      data: @usuarios.as_json(except: :password_digest) # Não expor a senha
+      data: @usuarios.as_json(except: :password_digest)
     }, status: :ok
   end
 
-  # GET /usuarios/:id
+ 
   def show
     render json: {
       status: "success",
@@ -18,7 +18,7 @@ class UsuariosController < ApplicationController
     }, status: :ok
   end
 
-  # POST /usuarios
+
   def create
     @usuario = Usuario.new(usuario_params)
 
@@ -37,7 +37,7 @@ class UsuariosController < ApplicationController
     end
   end
 
-  # PATCH/PUT /usuarios/:id
+
   def update
     if @usuario.update(usuario_params)
       render json: {
@@ -54,7 +54,7 @@ class UsuariosController < ApplicationController
     end
   end
 
-  # DELETE /usuarios/:id
+
   def destroy
     if @usuario.destroy
       render json: {

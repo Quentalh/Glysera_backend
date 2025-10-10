@@ -13,7 +13,6 @@ class EmissaoFormularioController < ApplicationController
      unidade_de_saude_id: unidade_de_saude.id
    )
 
-    # CORREÇÃO: Passa a unidade correta para o gerador de PDF
     pdf = generate_pdf(paciente, equipamento, unidade_de_saude)
 
     send_data pdf.render,
@@ -40,7 +39,6 @@ class EmissaoFormularioController < ApplicationController
         move_down 10
         font_size 12
         text "<b>Nome:</b> #{unidade_de_saude.nome}", inline_format: true
-        # CORREÇÃO: Alterado de .cnes para .us
         text "<b>US:</b> #{unidade_de_saude.us}", inline_format: true 
         move_down 30
 

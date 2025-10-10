@@ -1,7 +1,7 @@
 class EnderecosController < ApplicationController
   before_action :set_endereco, only: [:show, :update, :destroy]
 
-  # GET /enderecos
+
   def index
     @enderecos = Endereco.all
     render json: {
@@ -10,7 +10,7 @@ class EnderecosController < ApplicationController
     }, status: :ok
   end
 
-  # GET /enderecos/:id
+
   def show
     render json: {
       status: "success",
@@ -18,7 +18,7 @@ class EnderecosController < ApplicationController
     }, status: :ok
   end
 
-  # POST /enderecos
+
   def create
     @endereco = Endereco.new(endereco_params)
 
@@ -37,7 +37,7 @@ class EnderecosController < ApplicationController
     end
   end
 
-  # PATCH/PUT /enderecos/:id
+
   def update
     if @endereco.update(endereco_params)
       render json: {
@@ -54,7 +54,7 @@ class EnderecosController < ApplicationController
     end
   end
 
-  # DELETE /enderecos/:id
+
   def destroy
     if @endereco.destroy
       render json: {

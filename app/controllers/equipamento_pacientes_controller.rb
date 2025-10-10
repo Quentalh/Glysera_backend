@@ -2,7 +2,7 @@
 class EquipamentoPacientesController < ApplicationController
   before_action :set_equipamento_paciente, only: [:destroy]
 
-  # GET /equipamento_pacientes
+
   def index
     @equipamento_pacientes = EquipamentoPaciente.all
     render json: {
@@ -11,7 +11,7 @@ class EquipamentoPacientesController < ApplicationController
     }, status: :ok
   end
 
-  # POST /equipamento_pacientes
+
   def create
     @equipamento_paciente = EquipamentoPaciente.new(equipamento_paciente_params)
 
@@ -30,7 +30,7 @@ class EquipamentoPacientesController < ApplicationController
     end
   end
 
-  # DELETE /equipamento_pacientes/:id
+
   def destroy
     if @equipamento_paciente.destroy
       render json: {

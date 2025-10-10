@@ -1,7 +1,6 @@
 class ObservacoesController < ApplicationController
   before_action :set_observacao, only: [:show, :update, :destroy]
 
-  # GET /observacoes
   def index
     @observacoes = Observacao.all
     render json: {
@@ -10,7 +9,6 @@ class ObservacoesController < ApplicationController
     }, status: :ok
   end
 
-  # GET /observacoes/:id
   def show
     render json: {
       status: "success",
@@ -18,7 +16,6 @@ class ObservacoesController < ApplicationController
     }, status: :ok
   end
 
-  # POST /observacoes
   def create
     @equipamento = Equipamento.find(observacao_params[:equipamento_id])
     @observacao = @equipamento.observacoes.build(observacao_params)
@@ -38,7 +35,6 @@ class ObservacoesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /observacoes/:id
   def update
     if @observacao.update(observacao_params)
       render json: {
@@ -55,7 +51,6 @@ class ObservacoesController < ApplicationController
     end
   end
 
-  # DELETE /observacoes/:id
   def destroy
     if @observacao.destroy
       render json: {
